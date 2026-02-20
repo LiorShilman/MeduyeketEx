@@ -67,9 +67,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<body style="background: black;color: white">
+<body>
     <!--    <div id="panel">-->
-    <div id="game" style="border-style: solid;color: cornflowerblue;border-width: 5px; margin: 15px;padding: 5px;">
+    <div id="game">
         <div id="header">
             <svg id="help-button" viewbox="0 0 105 105">
                 <path d="M 34 35 A 16 12.5 0 1 1 59.6 45 A 24 18.75 0 0 0 50 60" stroke-width="10" stroke-linecap="round" fill="none" stroke="gray" />
@@ -86,7 +86,7 @@
                     Q59,73,78,89A48,48,0,0,0,90,77Q74,58,98,52M50,65A15,15,0,0,0,50,35A15,15,0,0,0,50,65" fill="#999" fill-rule="evenodd" />
             </svg>
         </div>
-        <div id="guesses" style="margin-bottom: 10px;margin-top: 10px;">
+        <div id="guesses">
             <div class="row" id="guess-1">
                 <span class="letter" id="letter-1-1"></span>
                 <span class="letter" id="letter-1-2"></span>
@@ -150,7 +150,7 @@
     </div>
     <!--    </div>-->
     <div id="modal" class="hidden">
-        <div id="help-screen" class="hidden" style="background: black;color: white">
+        <div id="help-screen" class="hidden">
             <div class="close-button">⨉</div>
             <h1>איך לשחק?</h1>
             <p>נסו לנחש את המילה ה<b>מדויקת</b>, יש 6 נסיונות.</p>
@@ -201,7 +201,7 @@
                 לא נמצאת במילה בכלל.
             </p>
             <h2>בכל יום יופיעו 10 מילים חדשות לנחש.</h2>
-            <div id="countdown-container" style="background: black;color: white">
+            <div id="countdown-container">
                 <div id="countdown-header">המילים הבאות בעוד</div>
                 <div id="countdown_help"></div>
             </div>
@@ -212,7 +212,7 @@
                 </p>
             </div>
         </div>
-        <div id="settings-screen" class="hidden" style="background: black;color: white">
+        <div id="settings-screen" class="hidden">
             <div class="close-button">⨉</div>
             <h1>הגדרות</h1>
             <div class="setting-selection">
@@ -280,7 +280,7 @@
                 מחיקת היסטוריה
             </div>
         </div>
-        <div id="success-screen" class="hidden" style="background: black;color: white">
+        <div id="success-screen" class="hidden">
             <div class="close-button">⨉</div>
             <h1 id="success-header"></h1>
             <div id="spoiler">המילה ה<b>מדויקת</b> היתה <span id="spoiler-word"></span></div>
@@ -314,7 +314,7 @@
             </div>
         </div>
 
-        <div id="finish-screen" class="hidden" style="background: black;color: white">
+        <div id="finish-screen" class="hidden">
             <div class="close-button">⨉</div>
         </div>
 

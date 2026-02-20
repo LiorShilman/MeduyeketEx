@@ -26,7 +26,7 @@
     }
 }*/
 
-const COLOR = ['brown', 'darkgreen', 'orangered', 'magenta', 'yellow', 'violet', 'goldenrod', 'teal', 'navy'];
+const COLOR = ['#E07A5F', '#81B29A', '#F2CC8F', '#C792EA', '#F78C6B', '#89DDFF', '#FFCB77', '#7EC8E3', '#E8A87C'];
 
 function get_date() {
     return new Date().toLocaleDateString('he-IL', {
@@ -780,19 +780,24 @@ function make_guess() {
     for (let i = 1; i <= 5; i++) {
         const elt = document.getElementById(`letter-${row}-${i}`);
         elt.classList.remove('typed');
-        elt.setAttribute('match', matches[i - 1]);
+        elt.classList.add('flipping');
+        (function(el, matchVal, delay) {
+            window.setTimeout(function() { el.setAttribute('match', matchVal); }, delay);
+        })(elt, matches[i - 1], (i - 1) * 150 + 250);
     }
     guesses.push(guess);
     localStorage.setItem(`guesses`, JSON.stringify(guesses));
     if (guess === word_of_the_day) {
         add_result_to_local_storage();
-        const row_elt = document.getElementById(`guess-${row}`);
-        row_elt.classList.add('win');
+        window.setTimeout(function() {
+            const row_elt = document.getElementById(`guess-${row}`);
+            row_elt.classList.add('win');
+        }, 900);
         const CONGRATULATIONS = ['גאוני', 'מדהים', 'נפלא', 'סחתיין', 'נהדר', 'מקסים'];
         popup(CONGRATULATIONS[guesses.length - 1]);
         window.setTimeout(show_success_screen, 3600);
     } else {
-        window.setTimeout(set_keyboard_key_colors, 100);
+        window.setTimeout(set_keyboard_key_colors, 900);
         if (guesses.length === 6) {
             add_result_to_local_storage();
             window.setTimeout(show_success_screen, 2000);
@@ -800,9 +805,11 @@ function make_guess() {
 
         if (row != 6) {
             current_pos1 = 1;
-            elt = document.getElementById(`letter-${row+1}-1`);
-            elt.classList.remove('letter');
-            elt.classList.add('current_letter');
+            window.setTimeout(function() {
+                elt = document.getElementById(`letter-${row+1}-1`);
+                elt.classList.remove('letter');
+                elt.classList.add('current_letter');
+            }, 900);
         }
     }
 }
@@ -845,19 +852,24 @@ function make_guessEx(number) {
     for (let i = 1; i <= 5; i++) {
         const elt = document.getElementById(`letter${number}-${row}-${i}`);
         elt.classList.remove('typed');
-        elt.setAttribute('match', matches[i - 1]);
+        elt.classList.add('flipping');
+        (function(el, matchVal, delay) {
+            window.setTimeout(function() { el.setAttribute('match', matchVal); }, delay);
+        })(elt, matches[i - 1], (i - 1) * 150 + 250);
     }
     eval(`guesses${number}`).push(guess);
     localStorage.setItem(`guesses${number}`, JSON.stringify(eval(`guesses${number}`)));
     if (guess === eval(`word_of_the_day${number}`)) {
-        const row_elt = document.getElementById(`guess${number}-${row}`);
         add_result_to_local_storageEx(number);
-        row_elt.classList.add('win');
+        window.setTimeout(function() {
+            const row_elt = document.getElementById(`guess${number}-${row}`);
+            row_elt.classList.add('win');
+        }, 900);
         const CONGRATULATIONS = ['גאוני', 'מדהים', 'נפלא', 'סחתיין', 'נהדר', 'מקסים'];
         popup(CONGRATULATIONS[eval(`guesses${number}`).length - 1]);
         window.setTimeout(show_success_screenEx(number), 3600);
     } else {
-        window.setTimeout(set_keyboard_key_colorsEx(number), 100);
+        window.setTimeout(set_keyboard_key_colorsEx(number), 900);
         if (eval(`guesses${number}`).length === 6) {
             add_result_to_local_storageEx(number);
             window.setTimeout(show_success_screenEx(number), 2000);
@@ -866,9 +878,11 @@ function make_guessEx(number) {
 
         if (row != 6) {
             eval(`current_pos${number} = 1`)
-            elt = document.getElementById(`letter${number}-${row+1}-1`);
-            elt.classList.remove('letter');
-            elt.classList.add('current_letter');
+            window.setTimeout(function() {
+                elt = document.getElementById(`letter${number}-${row+1}-1`);
+                elt.classList.remove('letter');
+                elt.classList.add('current_letter');
+            }, 900);
         }
     }
 }
@@ -1176,10 +1190,7 @@ function load_from_local_storage(hide) {
 
     if (finished_today) {
         let elemKeyboard = document.getElementById(`game`)
-        elemKeyboard.style.opacity = 0.25
-
-        /*  let elemGuesses = document.getElementById(`guesses`)
-          elemGuesses.style.opacity = 0.15*/
+        elemKeyboard.classList.add('game-finished')
     }
 
     for (let g = 2; g <= 10; g++) {
@@ -1196,7 +1207,7 @@ function load_from_local_storage(hide) {
 
         if (eval(`finished_today${g}`)) {
             var elemKeyboard = document.getElementById(eval(`'game${g}'`));
-            elemKeyboard.style.opacity = 0.25;
+            elemKeyboard.classList.add('game-finished');
         }
 
     }
@@ -1342,11 +1353,11 @@ function htmlToElement(html) {
 function add_nodes() {
 
     for (let g = 2; g <= 10; g++) {
-        var new_game = htmlToElement(`<div id="game${g}" style="border-style: solid;color: ${COLOR[g - 2]};border-width: 5px;margin: 15px;padding: 5px;">
+        var new_game = htmlToElement(`<div id="game${g}">
         <div id="header${g}">
             <span id="app-name${g}">מדויקת - ${g}</span>
         </div>
-        <div id="guesses${g}" style="margin-bottom: 10px;margin-top: 10px;">
+        <div id="guesses${g}">
             <div class="row" id="guess${g}-1">
                 <span class="letter" id="letter${g}-1-1"></span>
                 <span class="letter" id="letter${g}-1-2"></span>
@@ -1393,7 +1404,7 @@ function add_nodes() {
         <div id="keyboard${g}">
             <div class="keyboard-row">
                 <span class="key${g}" style="visibility: hidden"></span><span class="key${g} wide" value="Backspace"><svg viewBox="0 0 60 50">
-                        <path d="M50,10L20,10L10,25L20,40L50,40L50,10M27,20L37,30M37,20L27,30" fill="none" stroke-width="5" stroke="black" stroke-linecap="square" />
+                        <path d="M50,10L20,10L10,25L20,40L50,40L50,10M27,20L37,30M37,20L27,30" fill="none" stroke-width="5" stroke="#EAEDF3" stroke-linecap="square" />
                     </svg></span><span class="key${g}">פ</span><span class="key${g}">ו</span><span class="key${g}">ט</span><span class="key${g}">א</span><span class="key${g}">ר</span><span class="key${g}">ק</span>
             </div>
             <div class="keyboard-row">
@@ -1403,7 +1414,7 @@ function add_nodes() {
                 <span class="key${g} wide" value="Enter">
                     <span>אישור</span>
                     <svg viewBox="0 0 65 50">
-                        <path d="M55,15L55,30L10,30L20,20M10,30L20,40" fill="none" stroke-width="5" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M55,15L55,30L10,30L20,20M10,30L20,40" fill="none" stroke-width="5" stroke="#EAEDF3" stroke-linecap="round" stroke-linejoin="round" />
                     </svg></span><span class="key${g}">ת</span><span class="key${g}">צ</span><span class="key${g}">מ</span><span class="key${g}">נ</span><span class="key${g}">ה</span><span class="key${g}">ב</span><span class="key${g}">ס</span><span class="key${g}">ז</span>
             </div>
         </div>
